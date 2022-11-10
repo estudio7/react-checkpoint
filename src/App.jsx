@@ -1,77 +1,98 @@
+import { useState } from "react";
+import { Card } from "./components/card";
 
 // Aqui você irá escrever as suas funções de Validação, para verificar se o Formulário foi preenchido corretamente
+function ValidateColorName(colorName) {
+  return colorName.trim().length > 2;
+}
+
+function ValidateColorHex(corHexadecimal) {
+  // const padraoCorHexadecimal = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+  const padraoCorHexadecimal = /^#(?:[0-9a-f]{3}){1,2}$/i;
+  return padraoCorHexadecimal.test(corHexadecimal);
+}
 
 function App() {
   // Aqui você irá criar os Estados para manipular os Inputs
+  const [colorName, setcolorName] = useState("");
+  const [corHexadecimal, setCorHexadecimal] = useState("");
+  const [cores, setColors] = useState([]);
+  const [formularioErro, setFormularioErro] = useState(false);
 
+  const registerColor = (event) => {
+    event.preventDefault();
+    if (
+      ValidateColorHex(corHexadecimal) &&
+      ValidateColorName(colorName)
+    ) {
+      setFormularioErro(false);
+      let newId = cores.length;
+
+      const newColorRegistred = {
+        id: newId,
+        colorName: colorName,
+        corHexadecimal: corHexadecimal,
+      };
+
+      setColors([...cores, newColorRegistred]);
+      setcolorName("");
+      setCorHexadecimal("");
+    } else {
+      setFormularioErro(true);
+    }
+  };
 
   return (
     <div className="App">
-      <header>
-        <div class="row">
-          <div class="container">
-            <h1>Lista de Filmes</h1>
-          </div>
+      <section class="card-form" className={formularioErro ? "form-error" : ""}>
+        <div className="tittle-wrapper">
+          <h1>ADICIONAR NOVA COR</h1>
+         {/*  <h2>Adicione seu cor favorito</h2> */}
         </div>
 
-
-      </header>
-      <h2> Adicione seu titulo e selecione o genero do filme</h2>
-
-
-
-      <form class="row row-cols-lg-auto g-3 align-items-center">
-        <div class="col-12">
-          <label class="visually-hidden" for="inlineFormInputGroupUsername">
-            Nome do filme
-          </label>
-          <div class="input-group">
+        <form class="row row-cols-lg-auto g-3 align-items-center" onSubmit={(event) => registerColor(event)}>
+          {/* Comece a desenvolver o seu Código por aqui :) */}
+          
+            <div class="col-12" className="input">
+            <label htmlFor="colorName">Nome: </label>
             <input
+              id="colorName"
               type="text"
-              class="form-control"
-              id="inlineFormInputGroupUsername"
-              placeholder="Nome do filme"
+              value={colorName}
+              onChange={(event) => setcolorName(event.target.value)}
             />
           </div>
-        </div>
 
-        <div class="col-12">
-          <label class="visually-hidden" for="inlineFormSelectPref">
-            Preference
-          </label>
-          <select name="generos" class="form-control" id="generos" multiple="">
-            <option value="0">Seleccione</option>
-            <option value="1">Action</option>
-            <option value="2">Adventure</option>
-            <option value="3">Animation</option>
-            <option value="4">Comedy</option>
-            <option value="5">Crime</option>
-            <option value="6">Drama</option>
-            <option value="7">Family</option>
-            <option value="8">Fantasy</option>
-            <option value="9">History</option>
-            <option value="10">Horror</option>
-            <option value="11">Music</option>
-            <option value="12">Mystery</option>
-            <option value="13">Romance</option>
-            <option value="14">Science Fiction</option>
-            <option value="15">Thriller</option>
-            <option value="16">TV Movie</option>
-            <option value="17">War</option>
-            <option value="18">Western</option>
-          </select>
-        </div>
+          <div class="col-12">
+            <label htmlFor="corHexadecimal">Cor: </label>
+            <input
+              id="corHexadecimal"
+              placeholder="Insita sua cor no formato Hexadecimal"
+              type="color"
+              value={corHexadecimal}
+              onChange={(event) => setCorHexadecimal(event.target.value)}
+            />
+          </div>
 
+          <button type="submit" class="btn btn-form btn-primary">ADICIONAR</button>
+        </form>
+      </section>
 
+      {formularioErro ? (
+        <span>Por favor, verifique os dados inseridos no formulário</span>
+      ) : null}
 
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">
-            Adicionar
-          </button>
-        </div>
-      </form>
+      <div className="tittle-wrapper">
+        <h1>CORES FAVORITAS</h1>
+      </div>
+
+      <section>
+        {cores.map((cor, index) => (
+          <Card key={index} corData={cor} />
+        ))}
+      </section>
     </div>
   );
 }
 
-export default App
+export default App;

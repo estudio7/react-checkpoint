@@ -1,13 +1,16 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+
 
 body {
-  background-color:#EFEBE9;
+  background:#1E1E1E!important;
   box-sizing: border-box;
 }
 h1, h2 {
   margin: 0;
-  font-family: Montserrat, sans-serif;
+  font-family: Poppins, sans-serif;
   text-align: left;
+  color: #fff;
+  font-weight: 900;
 }
 h2 {
   color: #9E9E9E;
@@ -30,3 +33,31 @@ h2 {
 .card__copy {
   padding: 20px;
 }
+label {
+  color: rgba(255, 255, 255, 0.6);
+}
+button.btn.btn-form.btn-primary {
+  width: 231px;
+  height: 57px;
+  background: #36CE7C;
+  border-radius: 12px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  border: 0;
+}
+
+.App span {
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+color: #FF7070;
+}
+
+section 
+{background: #202020;
+  border-radius: 12px;}
